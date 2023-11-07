@@ -56,23 +56,26 @@
  '(shell-pop-default-directory "/Users/kyagi/git")
  '(shell-pop-full-span t)
  '(shell-pop-restore-window-configuration t)
- (pcase system-type
-   ;; GNU/Linux or WSL
-   (gnu/linux
-    '(shell-pop-shell-type
-      '("ansi-term" "*ansi-term*"
-	(lambda nil
-	  (ansi-term shell-pop-term-shell))))
-    '(shell-pop-term-shell "/bin/bash"))
-   ;; macOS
-   (darwin
-    '(shell-pop-term-shell "/bin/bash"))
-   ;; Windows
-   (windows-nt
-    '(shell-pop-term-shell "cmd.exe"))
-   ;; Other operating system
-   (_
-    (message "Unknown operating system")))
+ (cond
+  ((eq system-type 'gnu/linux)
+   (progn
+     '(shell-pop-shell-type
+       '("ansi-term" "*ansi-term*"
+	 (lambda nil
+	   (ansi-term shell-pop-term-shell)))))))
+ (cond
+  ((eq system-type 'windows-nt)
+   (progn
+     (message "Microsoft Windows")
+     '(shell-pop-term-shell "cmd.exe")))
+  ((eq system-type 'darwin)
+   (progn
+     (message "Mac OS X")
+     '(shell-pop-term-shell "/bin/bash")))
+  ((eq system-type 'gnu/linux)
+   (progn
+     (message "Linux")
+     '(shell-pop-term-shell "/bin/bash"))))
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "bottom")
  '(shell-pop-window-size 30)
@@ -109,7 +112,7 @@
   (defengine duckduckgo
     "https://duckduckgo.com/?q=%s"
     :keybinding "d")
-  
+
   (defengine google
     "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
     :keybinding "g")
@@ -177,6 +180,27 @@
   :init
   (global-flycheck-mode t))
 
+;; chsarp-mode
+(use-package csharp-mode
+  :ensure t
+  :init)
+
+;; python-mode
+(use-package python-mode
+  :ensure t
+  :init)
+
+;; cmake-mode
+(use-package cmake-mode
+  :ensure t
+  :init)
+
+;; xcscope need to install cscope
+;; Windows https://code.google.com/archive/p/cscope-win32/downloads
+(use-package xcscope
+  :ensure t
+  :init)
+
 ;; Magit
 (use-package magit
   :ensure t)
@@ -197,7 +221,7 @@
       (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
             doom-themes-enable-italic t) ; if nil, italics is universally disabled
       (load-theme 'doom-1337 t)
-      
+
       ;; Enable flashing mode-line on errors
       (doom-themes-visual-bell-config)
       ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -259,11 +283,42 @@
 (if (display-graphic-p) (minimap-mode 1))
 (show-paren-mode 1)
 (winner-mode 1)
+(ido-mode 1)
 
 ;; globals
 (global-display-line-numbers-mode)
 (global-hl-line-mode)
 (global-auto-revert-mode)
 (global-aggressive-indent-mode)
+
+;; Modes
+
+(setq fixme-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mode c++-mode python-mode makefile-mode sql-mode))
+(make-face 'font-lock-fixme-face)
+(mapc (lambda (mode)
+        (font-lock-add-keywords
+         mode
+         '(("\\<\\(FIXME\\)" 1 'font-lock-fixme-face t))))
+      fixme-modes)
+(modify-face 'font-lock-fixme-face "Red" "Yellow" nil t nil t nil nil)
+
+(setq todo-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mod c++-mode python-mode makefile-mode sql-mode))
+(make-face 'font-lock-todo-face)
+(mapc (lambda (mode)
+        (font-lock-add-keywords
+         mode
+         '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t))))
+      todo-modes)
+(modify-face 'font-lock-todo-face "Yellow" "Red" nil t nil t nil nil)
+
+(setq name-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mod c++-mode python-mode makefile-mode sql-mode))
+(make-face 'font-lock-name-face)
+(mapc (lambda (mode)
+        (font-lock-add-keywords
+         mode
+         '(("\\<\\(NAME\\)" 1 'font-lock-name-face t))))
+      todo-modes)
+(modify-face 'font-lock-name-face "Red" "Green" nil t nil t nil nil)
+
 
 ;;; .emacs ends here
