@@ -56,11 +56,23 @@
  '(shell-pop-default-directory "/Users/kyagi/git")
  '(shell-pop-full-span t)
  '(shell-pop-restore-window-configuration t)
- '(shell-pop-shell-type
-   '("ansi-term" "*ansi-term*"
-     (lambda nil
-       (ansi-term shell-pop-term-shell))))
- '(shell-pop-term-shell "/bin/bash")
+ (pcase system-type
+   ;; GNU/Linux or WSL
+   (gnu/linux
+    '(shell-pop-shell-type
+      '("ansi-term" "*ansi-term*"
+	(lambda nil
+	  (ansi-term shell-pop-term-shell))))
+    '(shell-pop-term-shell "/bin/bash"))
+   ;; macOS
+   (darwin
+    '(shell-pop-term-shell "/bin/bash"))
+   ;; Windows
+   (windows-nt
+    '(shell-pop-term-shell "cmd.exe"))
+   ;; Other operating system
+   (_
+    (message "Unknown operating system")))
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "bottom")
  '(shell-pop-window-size 30)
@@ -229,6 +241,13 @@
   (c-toggle-auto-hungry-state 1))
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+;; File finish with empty line
+(setq require-final-newline 'ask)
+
+;; Clean whitespaces and empty lines
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+(setq delete-trailing-whitespace-p t)
 
 ;; modes
 (helm-autoresize-mode 1)
