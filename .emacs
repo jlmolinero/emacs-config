@@ -5,6 +5,7 @@
 ;; requires
 (require 'package)
 (require 'undo-tree)
+(require 'auto-complete)
 (require 'helm)
 
 ;; Personal Information
@@ -50,32 +51,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens helm-google swiper-helm expand-region mode-icons auto-complete mmm-mode minimap ## undo-tree magit))
+   '(org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens helm-google swiper-helm expand-region mode-icons auto-complete mmm-mode minimap ## undo-tree magit))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-cleanup-buffer-at-process-exit t)
  '(shell-pop-default-directory "/Users/kyagi/git")
  '(shell-pop-full-span t)
  '(shell-pop-restore-window-configuration t)
- (cond
-  ((eq system-type 'gnu/linux)
-   (progn
-     '(shell-pop-shell-type
-       '("ansi-term" "*ansi-term*"
-	 (lambda nil
-	   (ansi-term shell-pop-term-shell)))))))
- (cond
-  ((eq system-type 'windows-nt)
-   (progn
-     (message "Microsoft Windows")
-     '(shell-pop-term-shell "cmd.exe")))
-  ((eq system-type 'darwin)
-   (progn
-     (message "Mac OS X")
-     '(shell-pop-term-shell "/bin/bash")))
-  ((eq system-type 'gnu/linux)
-   (progn
-     (message "Linux")
-     '(shell-pop-term-shell "/bin/bash"))))
+ '(shell-pop-shell-type
+   '("ansi-term" "*ansi-term*"
+     (lambda nil
+       (ansi-term shell-pop-term-shell))))
+ '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "bottom")
  '(shell-pop-window-size 30)
@@ -170,7 +156,8 @@
   :ensure t
   :config
   (ac-config-default)
-  (global-auto-complete-mode -1))
+  (global-auto-complete-mode t)
+  (setq ac-modes '(c++-mode csharp-mode python-mode cmake-mode sql-mode)))
 
 (add-hook 'org-mode-hook 'auto-complete-mode)
 
@@ -194,6 +181,12 @@
 (use-package cmake-mode
   :ensure t
   :init)
+
+;; org
+(use-package org
+  :ensure t
+  :init
+  (org-mode))
 
 ;; xcscope need to install cscope
 ;; Windows https://code.google.com/archive/p/cscope-win32/downloads
@@ -276,7 +269,6 @@
 ;; modes
 (helm-autoresize-mode 1)
 (helm-mode 1)
-(auto-complete-mode 1)
 (line-number-mode 1)
 (column-number-mode 1)
 (if (display-graphic-p) (beacon-mode 1))
@@ -284,6 +276,10 @@
 (show-paren-mode 1)
 (winner-mode 1)
 (ido-mode 1)
+(csharp-mode)
+(c++-mode)
+(python-mode)
+(cmake-mode)
 
 ;; globals
 (global-display-line-numbers-mode)
