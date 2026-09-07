@@ -1,8 +1,10 @@
-;;; package --- Sumary
+;;; package --- Sumary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;; requires
+(add-to-list 'warning-suppress-types '(files missing-lexbind-cookie))
+
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
