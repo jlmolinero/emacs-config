@@ -283,8 +283,7 @@
 (setq require-final-newline 'ask)
 
 ;; Clean whitespaces and empty lines
-(add-hook 'write-file-hooks 'delete-trailing-whitespace)
-(setq delete-trailing-whitespace-p t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; modes
 (line-number-mode 1)
