@@ -4,6 +4,16 @@
 
 ;; requires
 (require 'package)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(unless (require 'use-package nil 'noerror)
+  (package-refresh-contents)
+  (package-install 'use-package)
+  (require 'use-package))
+
+(require 'cl-lib)
+(require 'cc-mode)
 (require 'undo-tree)
 (require 'auto-complete)
 (require 'helm)
@@ -41,17 +51,13 @@
   (interactive)
   (scroll-up 1))
 
-;; Melpa
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens helm-google swiper-helm expand-region mode-icons auto-complete mmm-mode minimap ## undo-tree magit))
+   '(use-package csharp-mode org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens swiper-helm expand-region mode-icons auto-complete mmm-mode minimap undo-tree magit))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-cleanup-buffer-at-process-exit t)
  '(shell-pop-default-directory "/Users/kyagi/git")
@@ -64,8 +70,7 @@
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "bottom")
- '(shell-pop-window-size 30)
- '(shell-pop-window-sºize 30))
+ '(shell-pop-window-size 30))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -238,7 +243,8 @@
 
 (defun buffer-standard-include-p ()
   "Return TRUE if the current buffer is contained within one of the directories in the INCLUDE environment variable."
-  (and (getenv "INCLUDE")
+  (and buffer-file-name
+       (getenv "INCLUDE")
        (file-in-directory-list-p buffer-file-name (split-string (getenv "INCLUDE") path-separator))))
 
 (add-to-list 'magic-fallback-mode-alist '(buffer-standard-include-p . c++-mode))
@@ -276,10 +282,6 @@
 (show-paren-mode 1)
 (winner-mode 1)
 (ido-mode 1)
-(csharp-mode)
-(c++-mode)
-(python-mode)
-(cmake-mode)
 
 ;; globals
 (global-display-line-numbers-mode)
@@ -313,7 +315,7 @@
         (font-lock-add-keywords
          mode
          '(("\\<\\(NAME\\)" 1 'font-lock-name-face t))))
-      todo-modes)
+      name-modes)
 (modify-face 'font-lock-name-face "Red" "Green" nil t nil t nil nil)
 
 
