@@ -4,6 +4,7 @@
 
 ;; requires
 (add-to-list 'warning-suppress-types '(files missing-lexbind-cookie))
+(add-to-list 'warning-suppress-types '(cl))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
