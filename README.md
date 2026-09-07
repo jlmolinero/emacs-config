@@ -1,109 +1,109 @@
 # emacs-config
 
-Configuración personal de GNU Emacs orientada a desarrollo general, con navegación rápida, autocompletado, linting, Git/Magit, soporte para varios lenguajes y una interfaz gráfica más cómoda.
+Personal GNU Emacs configuration for general development, with fast navigation, completion, linting, Git/Magit integration, language support, and a more comfortable graphical interface.
 
-> Este repositorio contiene una configuración clásica basada en `~/.emacs` y una carpeta `~/.emacs.d` con paquetes ELPA ya incluidos. A medio plazo es recomendable migrar los paquetes instalados a una gestión declarativa, pero el repositorio puede usarse tal como está.
+> This repository contains a classic Emacs setup based on `~/.emacs` and a `~/.emacs.d` directory with ELPA packages already included. In the long term, it would be better to move package installation to a declarative setup, but the repository can be used as-is.
 
-## Características principales
+## Main features
 
-- **Navegación y búsqueda** con Helm, Swiper/Helm, Ido y accesos directos personalizados.
-- **Autocompletado** con `auto-complete` y configuración por modo.
-- **Calidad de código** con Flycheck, limpieza de espacios al guardar y resaltado de `TODO`/`FIXME`.
-- **Git integrado** con Magit.
-- **Interfaz gráfica** con tema Doom, NeoTree, Minimap, Beacon, números de línea y resaltado de la línea actual.
-- **Edición cómoda** con `expand-region`, `smartparens`, `undo-tree`, `which-key` y `aggressive-indent`.
-- **Modos de lenguaje** para C/C++, C#, Python, CMake, Groovy, Markdown, Org y otros.
-- **Terminal emergente** con `shell-pop`.
+- **Navigation and search** with Helm, Swiper/Helm, Ido, and custom shortcuts.
+- **Completion** with `auto-complete` and mode-specific configuration.
+- **Code quality** with Flycheck, whitespace cleanup on save, and `TODO`/`FIXME` highlighting.
+- **Git integration** with Magit.
+- **Graphical UI enhancements** with a Doom theme, NeoTree, Minimap, Beacon, line numbers, and current-line highlighting.
+- **Editing helpers** with `expand-region`, `smartparens`, `undo-tree`, `which-key`, and `aggressive-indent`.
+- **Language modes** for C/C++, C#, Python, CMake, Groovy, Markdown, Org, and others.
+- **Popup terminal** with `shell-pop`.
 
-## Requisitos
+## Requirements
 
-- GNU Emacs 27 o superior recomendado.
-- Git, para clonar el repositorio y usar Magit.
-- Bash, usado por la configuración de `shell-pop`.
-- Opcional: `cscope`, si quieres usar la integración de `xcscope`.
-- Opcional: las fuentes de `all-the-icons`, si quieres iconos completos en modo gráfico.
+- GNU Emacs 27 or newer recommended.
+- Git, to clone the repository and use Magit.
+- Bash, used by the `shell-pop` configuration.
+- Optional: `cscope`, if you want to use the `xcscope` integration.
+- Optional: `all-the-icons` fonts, if you want full icon support in graphical Emacs.
 
-En Arch Linux / CachyOS, por ejemplo:
+On Arch Linux / CachyOS, for example:
 
 ```bash
 sudo pacman -S emacs git bash cscope
 ```
 
-## Instalación
+## Installation
 
-### 1. Hacer copia de seguridad de tu configuración actual
+### 1. Back up your current configuration
 
-Antes de instalar, guarda cualquier configuración previa:
+Before installing, save any existing Emacs configuration:
 
 ```bash
 mv ~/.emacs ~/.emacs.backup 2>/dev/null || true
 mv ~/.emacs.d ~/.emacs.d.backup 2>/dev/null || true
 ```
 
-### 2. Clonar el repositorio
+### 2. Clone the repository
 
 ```bash
 git clone https://github.com/jlmolinero/emacs-config.git ~/emacs-config
 ```
 
-### 3. Enlazar los archivos de configuración
+### 3. Link the configuration files
 
 ```bash
 ln -s ~/emacs-config/.emacs ~/.emacs
 ln -s ~/emacs-config/.emacs.d ~/.emacs.d
 ```
 
-También puedes copiar los archivos en lugar de enlazarlos, pero los enlaces simbólicos facilitan mantener el repositorio actualizado con Git.
+You can copy the files instead of symlinking them, but symlinks make it easier to keep the configuration updated with Git.
 
-### 4. Arrancar Emacs
+### 4. Start Emacs
 
 ```bash
 emacs
 ```
 
-En el primer arranque Emacs puede tardar más de lo normal si actualiza paquetes o genera cachés.
+The first startup may take longer than usual if Emacs updates packages or generates caches.
 
-### 5. Instalar fuentes de iconos
+### 5. Install icon fonts
 
-Si usas Emacs en modo gráfico y ves cuadrados o iconos incorrectos, ejecuta dentro de Emacs:
+If you use graphical Emacs and see missing icons or square placeholders, run this inside Emacs:
 
 ```elisp
 M-x all-the-icons-install-fonts
 ```
 
-Después reinicia Emacs o refresca la caché de fuentes del sistema.
+Then restart Emacs or refresh your system font cache.
 
-## Estructura del repositorio
+## Repository structure
 
 ```text
 .
-├── .emacs          # Configuración principal de Emacs
-├── .emacs.d/       # Directorio de Emacs con paquetes ELPA y estado asociado
-├── .gitignore      # Reglas para no versionar cachés/temporales nuevos
-└── README.md       # Esta documentación
+├── .emacs          # Main Emacs configuration
+├── .emacs.d/       # Emacs directory with ELPA packages and associated state
+├── .gitignore      # Rules to avoid tracking new cache/temporary files
+└── README.md       # This documentation
 ```
 
-## Atajos destacados
+## Notable shortcuts
 
-| Atajo | Acción |
+| Shortcut | Action |
 | --- | --- |
-| `C-c C-g C-l` | Ir a una línea concreta (`goto-line`) |
-| `C-=` | Expandir selección (`expand-region`) |
-| `C-?` | Contraer selección (`expand-region`) |
-| `C-x C-f` | Abrir archivo con Helm |
-| `C-x b` | Cambiar de buffer con Helm |
-| `M-x` | Comandos con Helm |
-| `M-y` | Historial del kill-ring con Helm |
-| `C-s` / `C-r` | Buscar con Swiper/Helm |
-| `F6` | Crear/mostrar minimap |
-| `F7` | Cerrar minimap |
-| `F8` | Alternar NeoTree |
-| `F9` | Abrir/cerrar terminal emergente (`shell-pop`) |
-| `M-g` | Abrir Magit status |
+| `C-c C-g C-l` | Go to a specific line (`goto-line`) |
+| `C-=` | Expand selection (`expand-region`) |
+| `C-?` | Contract selection (`expand-region`) |
+| `C-x C-f` | Open files with Helm |
+| `C-x b` | Switch buffers with Helm |
+| `M-x` | Run commands with Helm |
+| `M-y` | Browse the kill-ring with Helm |
+| `C-s` / `C-r` | Search with Swiper/Helm |
+| `F6` | Create/show the minimap |
+| `F7` | Close the minimap |
+| `F8` | Toggle NeoTree |
+| `F9` | Open/close the popup terminal (`shell-pop`) |
+| `M-g` | Open Magit status |
 
-## Paquetes configurados
+## Configured packages
 
-La configuración declara, entre otros, estos paquetes:
+The configuration declares, among others, these packages:
 
 - `org`
 - `magit`
@@ -126,9 +126,9 @@ La configuración declara, entre otros, estos paquetes:
 - `lsp-jedi`
 - `xcscope`
 
-## Personalización rápida
+## Quick customization
 
-Los ajustes personales principales están al inicio de `.emacs`:
+The main personal settings are near the top of `.emacs`:
 
 ```elisp
 (setq user-full-name "Name"
@@ -138,48 +138,48 @@ Los ajustes personales principales están al inicio de `.emacs`:
 (setq calendar-location-name "Madrid, ES")
 ```
 
-Cambia estos valores por tu nombre, correo y ubicación.
+Change these values to your name, email address, and location.
 
-También conviene revisar:
+You should also review:
 
-- `shell-pop-default-directory`, que actualmente apunta a una ruta local concreta.
-- `shell-pop-term-shell`, si no usas `/bin/bash`.
-- El tema cargado con `(load-theme 'doom-1337 t)`.
-- El tamaño de ventana configurado con `(set-frame-size ...)`.
+- `shell-pop-default-directory`, which currently points to a local machine-specific path.
+- `shell-pop-term-shell`, if you do not use `/bin/bash`.
+- The theme loaded with `(load-theme 'doom-1337 t)`.
+- The window size configured with `(set-frame-size ...)`.
 
-## Recargar la configuración
+## Reloading the configuration
 
-La configuración incluye una función para recargar `~/.emacs` sin reiniciar Emacs:
+The configuration includes a helper function to reload `~/.emacs` without restarting Emacs:
 
 ```elisp
 M-x reload-dotemacs-file
 ```
 
-## Mantenimiento recomendado
+## Recommended maintenance
 
-Este repositorio funciona, pero hay varias mejoras claras para futuras iteraciones:
+This repository works, but there are several clear improvements for future iterations:
 
-1. **Separar configuración de paquetes instalados**: evitar versionar `.emacs.d/elpa/` y declarar paquetes de forma reproducible desde `.emacs`, `init.el` o un gestor como `use-package`/`straight.el`/`elpaca`.
-2. **Migrar de `~/.emacs` a `~/.emacs.d/init.el`**: es el formato más común en configuraciones modernas.
-3. **Dividir la configuración en módulos**: por ejemplo `lisp/ui.el`, `lisp/completion.el`, `lisp/languages.el` y `lisp/keybindings.el`.
-4. **Mover datos personales a un archivo local no versionado**: por ejemplo `local.el`, cargado si existe.
-5. **Evitar estado generado en Git**: archivos como `recentf`, historiales, cachés y datos de paquetes deberían quedar fuera del repositorio.
-6. **Validar la configuración en CI**: cargar Emacs en modo batch para comprobar que no hay errores de arranque.
+1. **Separate configuration from installed packages**: avoid versioning `.emacs.d/elpa/` and declare packages reproducibly from `.emacs`, `init.el`, or a package manager such as `use-package`, `straight.el`, or `elpaca`.
+2. **Move from `~/.emacs` to `~/.emacs.d/init.el`**: this is the most common layout for modern Emacs configurations.
+3. **Split the configuration into modules**: for example `lisp/ui.el`, `lisp/completion.el`, `lisp/languages.el`, and `lisp/keybindings.el`.
+4. **Move personal data to an untracked local file**: for example `local.el`, loaded only if it exists.
+5. **Avoid tracking generated state**: files such as `recentf`, histories, caches, and package data should stay out of the repository.
+6. **Validate the configuration in CI**: load Emacs in batch mode to check for startup errors.
 
-## Comprobación básica
+## Basic check
 
-Puedes validar que Emacs carga el archivo principal en modo batch con:
+You can validate that Emacs loads the main configuration file in batch mode with:
 
 ```bash
 emacs --batch --load ~/.emacs --eval '(message "Config OK")'
 ```
 
-Si estás dentro del repositorio y todavía no has instalado los enlaces simbólicos:
+If you are inside the repository and have not installed the symlinks yet:
 
 ```bash
 emacs --batch --load ./.emacs --eval '(message "Config OK")'
 ```
 
-## Licencia
+## License
 
-Este repositorio no declara una licencia explícita. Si quieres que otras personas puedan reutilizarlo, añade una licencia como MIT, Apache-2.0 o GPL-3.0.
+This repository does not declare an explicit license. If you want other people to be able to reuse it, add a license such as MIT, Apache-2.0, or GPL-3.0.
