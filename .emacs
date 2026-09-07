@@ -1,9 +1,22 @@
-;;; package --- Sumary
+;;; package --- Sumary -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;; requires
+(add-to-list 'warning-suppress-types '(files missing-lexbind-cookie))
+(add-to-list 'warning-suppress-types '(cl))
+
 (require 'package)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(unless (require 'use-package nil 'noerror)
+  (package-refresh-contents)
+  (package-install 'use-package)
+  (require 'use-package))
+
+(require 'cl-lib)
+(require 'cc-mode)
 (require 'undo-tree)
 (require 'auto-complete)
 (require 'helm)
@@ -41,17 +54,13 @@
   (interactive)
   (scroll-up 1))
 
-;; Melpa
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens helm-google swiper-helm expand-region mode-icons auto-complete mmm-mode minimap ## undo-tree magit))
+   '(use-package csharp-mode org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens swiper-helm expand-region mode-icons auto-complete mmm-mode minimap beacon undo-tree magit))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-cleanup-buffer-at-process-exit t)
  '(shell-pop-default-directory "/Users/kyagi/git")
@@ -64,8 +73,7 @@
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "bottom")
- '(shell-pop-window-size 30)
- '(shell-pop-window-sºize 30))
+ '(shell-pop-window-size 30))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -113,8 +121,22 @@
       (setq minimap-always-recenter -1)
       (setq minimap-minimum-width '0)
       (setq minimap-width-fraction 0.1)
+      (minimap-mode 1)
       (global-set-key [f7] 'minimap-kill)
       (global-set-key [f6] 'minimap-create)))
+
+;; beacon
+(use-package beacon
+  :ensure t
+  :if (display-graphic-p)
+  :config
+  (beacon-mode 1))
+
+;; aggressive-indent
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode 1))
 
 ;; which-key
 (use-package which-key
@@ -123,16 +145,16 @@
   (which-key-mode 1))
 
 ;; Helm
-;;(use-package helm
-;;  :ensure t
-;;  :config
-;;  (helm-autoresize-mode t)
-;;  (helm-mode t)
-;;  (global-set-key (kbd "C-x C-f") 'helm-find-files);
-;;  (global-set-key (kbd "C-x b") 'helm-mini)
-;;  (global-set-key (kbd "M-x") 'helm-M-x)
-;;  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;;  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
+(use-package helm
+  :ensure t
+  :config
+  (helm-autoresize-mode t)
+  (helm-mode t)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
 
 (use-package swiper-helm
   :ensure t
@@ -238,7 +260,8 @@
 
 (defun buffer-standard-include-p ()
   "Return TRUE if the current buffer is contained within one of the directories in the INCLUDE environment variable."
-  (and (getenv "INCLUDE")
+  (and buffer-file-name
+       (getenv "INCLUDE")
        (file-in-directory-list-p buffer-file-name (split-string (getenv "INCLUDE") path-separator))))
 
 (add-to-list 'magic-fallback-mode-alist '(buffer-standard-include-p . c++-mode))
@@ -263,29 +286,19 @@
 (setq require-final-newline 'ask)
 
 ;; Clean whitespaces and empty lines
-(add-hook 'write-file-hooks 'delete-trailing-whitespace)
-(setq delete-trailing-whitespace-p t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; modes
-(helm-autoresize-mode 1)
-(helm-mode 1)
 (line-number-mode 1)
 (column-number-mode 1)
-(if (display-graphic-p) (beacon-mode 1))
-(if (display-graphic-p) (minimap-mode 1))
 (show-paren-mode 1)
 (winner-mode 1)
 (ido-mode 1)
-(csharp-mode)
-(c++-mode)
-(python-mode)
-(cmake-mode)
 
 ;; globals
 (global-display-line-numbers-mode)
 (global-hl-line-mode)
 (global-auto-revert-mode)
-(global-aggressive-indent-mode)
 
 ;; Modes
 
@@ -313,7 +326,7 @@
         (font-lock-add-keywords
          mode
          '(("\\<\\(NAME\\)" 1 'font-lock-name-face t))))
-      todo-modes)
+      name-modes)
 (modify-face 'font-lock-name-face "Red" "Green" nil t nil t nil nil)
 
 
