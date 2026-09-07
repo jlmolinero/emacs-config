@@ -57,7 +57,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(use-package csharp-mode org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens swiper-helm expand-region mode-icons auto-complete mmm-mode minimap undo-tree magit))
+   '(use-package csharp-mode org lsp-jedi yasnippet aggressive-indent highlight-symbol all-the-icons neotree doom-themes shell-pop flycheck engine-mode which-key smartparens swiper-helm expand-region mode-icons auto-complete mmm-mode minimap beacon undo-tree magit))
  '(shell-pop-autocd-to-working-dir t)
  '(shell-pop-cleanup-buffer-at-process-exit t)
  '(shell-pop-default-directory "/Users/kyagi/git")
@@ -118,8 +118,22 @@
       (setq minimap-always-recenter -1)
       (setq minimap-minimum-width '0)
       (setq minimap-width-fraction 0.1)
+      (minimap-mode 1)
       (global-set-key [f7] 'minimap-kill)
       (global-set-key [f6] 'minimap-create)))
+
+;; beacon
+(use-package beacon
+  :ensure t
+  :if (display-graphic-p)
+  :config
+  (beacon-mode 1))
+
+;; aggressive-indent
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode 1))
 
 ;; which-key
 (use-package which-key
@@ -128,16 +142,16 @@
   (which-key-mode 1))
 
 ;; Helm
-;;(use-package helm
-;;  :ensure t
-;;  :config
-;;  (helm-autoresize-mode t)
-;;  (helm-mode t)
-;;  (global-set-key (kbd "C-x C-f") 'helm-find-files);
-;;  (global-set-key (kbd "C-x b") 'helm-mini)
-;;  (global-set-key (kbd "M-x") 'helm-M-x)
-;;  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;;  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
+(use-package helm
+  :ensure t
+  :config
+  (helm-autoresize-mode t)
+  (helm-mode t)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
 
 (use-package swiper-helm
   :ensure t
@@ -273,12 +287,8 @@
 (setq delete-trailing-whitespace-p t)
 
 ;; modes
-(helm-autoresize-mode 1)
-(helm-mode 1)
 (line-number-mode 1)
 (column-number-mode 1)
-(if (display-graphic-p) (beacon-mode 1))
-(if (display-graphic-p) (minimap-mode 1))
 (show-paren-mode 1)
 (winner-mode 1)
 (ido-mode 1)
@@ -287,7 +297,6 @@
 (global-display-line-numbers-mode)
 (global-hl-line-mode)
 (global-auto-revert-mode)
-(global-aggressive-indent-mode)
 
 ;; Modes
 
