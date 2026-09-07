@@ -123,16 +123,16 @@
   (which-key-mode 1))
 
 ;; Helm
-(use-package helm
-  :ensure t
-  :config
-  (helm-autoresize-mode t)
-  (helm-mode t)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files);
-  (global-set-key (kbd "C-x b") 'helm-mini)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
+;;(use-package helm
+;;  :ensure t
+;;  :config
+;;  (helm-autoresize-mode t)
+;;  (helm-mode t)
+;;  (global-set-key (kbd "C-x C-f") 'helm-find-files);
+;;  (global-set-key (kbd "C-x b") 'helm-mini)
+;;  (global-set-key (kbd "M-x") 'helm-M-x)
+;;  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;;  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action))
 
 (use-package swiper-helm
   :ensure t
@@ -206,24 +206,24 @@
   (global-set-key [f9] 'shell-pop))
 
 ;; doom-temes
-(if (display-graphic-p)
-    (use-package doom-themes
-      :ensure t
-      :config
+;;(if (display-graphic-p)
+;;    (use-package doom-themes
+;;      :ensure t
+;;      :config
       ;; Global settings (defaults)
-      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-            doom-themes-enable-italic t) ; if nil, italics is universally disabled
-      (load-theme 'doom-1337 t)
+;;      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+;;            doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;      (load-theme 'doom-1337 t)
 
       ;; Enable flashing mode-line on errors
-      (doom-themes-visual-bell-config)
+;;      (doom-themes-visual-bell-config)
       ;; Enable custom neotree theme (all-the-icons must be installed!)
       ;; (doom-themes-neotree-config)
       ;; or for treemacs users
-      (customize-set-variable 'doom-themes-treemacs-theme "doom-colors")
-      (doom-themes-treemacs-config)
+;;      (customize-set-variable 'doom-themes-treemacs-theme "doom-colors")
+;;      (doom-themes-treemacs-config)
       ;; Corrects (and improves) org-mode's native fontification.
-      (doom-themes-org-config)))
+;;      (doom-themes-org-config)))
 
 ;; C++ mode
 (defun file-in-directory-list-p (file dirlist)
@@ -289,7 +289,7 @@
 
 ;; Modes
 
-(setq fixme-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mode c++-mode python-mode makefile-mode sql-mode))
+(setq fixme-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode c++-mode python-mode makefile-mode sql-mode))
 (make-face 'font-lock-fixme-face)
 (mapc (lambda (mode)
         (font-lock-add-keywords
@@ -298,7 +298,7 @@
       fixme-modes)
 (modify-face 'font-lock-fixme-face "Red" "Yellow" nil t nil t nil nil)
 
-(setq todo-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mod c++-mode python-mode makefile-mode sql-mode))
+(setq todo-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode c++-mode python-mode makefile-mode sql-mode))
 (make-face 'font-lock-todo-face)
 (mapc (lambda (mode)
         (font-lock-add-keywords
@@ -307,7 +307,7 @@
       todo-modes)
 (modify-face 'font-lock-todo-face "Yellow" "Red" nil t nil t nil nil)
 
-(setq name-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode latex-mod c++-mode python-mode makefile-mode sql-mode))
+(setq name-modes '(erlang-mode csharp-mode java-mode c-mode emacs-lisp-mode scheme-mode c++-mode python-mode makefile-mode sql-mode))
 (make-face 'font-lock-name-face)
 (mapc (lambda (mode)
         (font-lock-add-keywords
